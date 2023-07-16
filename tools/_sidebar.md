@@ -1,0 +1,11 @@
+- [jupyterlab](jupyterlab.md)
+- [shell](shell-basic.md)
+- [nginx](nginx.md)
+- [docsify](docsify.md)
+- [markdown](markdown.md)
+- [git](git.md)
+- [visual studio code](vscode.md)
+- [node.js](nodejs.md)
+- [plantuml](plantuml.md)
+<!-- - [ps2019](ps2019.md) -->
+- [docker](docker.md)

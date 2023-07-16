@@ -1,0 +1,95 @@
+@startuml rbac
+
+title RBAC实体关系图
+
+hide methods
+skinparam defaultFontName '宋体'
+
+' left to right direction
+
+entity User {
+* id number <<PK>>
+* userId <<UK1>>
+* username <<UK2>>
+* password
+* nickname
+* status
+--
+通用字段:
+ del_flag
+ created_at
+ updated_at
+ created_by
+ updated_by
+}
+
+entity UserRoleRel {
+* id
+* userId <<UK1>>
+* roleId <<UK1>>
+}
+
+entity Role {
+* id number <<PK>>
+* roleId <<UK>>
+* rolename
+* status
+}
+
+entity RoleResourceRel {
+* id
+* roleId <<UK1>>
+* resourceId <<UK1>>
+}
+
+entity Resource {
+* id number <<PK>>
+* resourceId <<UK1>>
+* resourceCode <<UK2>>
+* resourceName
+* resourceType
+* parentResourceId
+* icon
+* path
+* component
+* status
+}
+
+entity ResourceApiRel {
+* id
+* resourceId <<UK1>>
+* apiId <<UK1>>
+}
+
+entity Api {
+* id
+* apiId
+* apiName
+* status
+}
+
+User "1" --> "1..n" UserRoleRel
+Role "1" --> "1..n" UserRoleRel
+Role "1" --> "1..n" RoleResourceRel
+Resource "1" --> "1..n" RoleResourceRel
+Resource "1" --> "1..n" ResourceApiRel
+Api "1" --> "1..n" ResourceApiRel
+
+entity Dict {
+* id
+* dictId <<UK>>
+* dictCode <<UK1>>
+* dictName
+* dictEnum <<UK1>>
+* dictEnumDesc
+}
+
+entity Param {
+* id
+* paramId <<UK1>>
+* paramGroup
+* paramCode <<UK2>>
+* paramValue
+* paramDesc
+}
+@enduml

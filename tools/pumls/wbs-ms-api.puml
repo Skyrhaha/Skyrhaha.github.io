@@ -1,0 +1,60 @@
+@startwbs ms-api
+
+title 管理系统功能接口分解图
+skinparam defaultFontName '宋体'
+
+* 功能接口(api)
+
+** 登录管理
+*** 登录 /login
+*** 登出 /logout
+*** 登录保活 /keepalive
+*** 菜单权限获取 /resources
+
+** 用户管理>用户列表
+*** 用户查询 /user/list
+*** 用户新增 /user/add
+*** 用户修改 /user/edit
+*** 用户删除 /user/remove
+*** 用户详情 /user/detail
+*** 用户角色分配 /user/assignRole
+*** 用户密码修改 /user/changePassword
+*** 用户禁用/启用 /user/changeStatus
+
+** 权限管理
+*** 角色列表
+**** 角色查询 /role/list
+**** 角色新增 /role/add
+**** 角色修改 /role/edit
+**** 角色删除 /role/remove
+**** 角色详情 /role/detail
+**** 角色成员维护 /role/assignUser
+**** 角色权限维护 /role/assignResource
+**** 角色启用/禁用 /role/changeStatus
+*** 权限列表
+**** 权限查询 /resource/list
+**** 权限新增 /resource/add
+**** 权限修改 /resource/edit
+**** 权限删除 /resource/remove
+**** 权限详情 /resource/detail
+**** 权限角色分配 /resource/assignRole
+**** 权限接口绑定 /resource/bindingApi
+**** 权限禁用/启用 /resource/changeStatus
+**** 接口查询 /api/list
+
+** 系统管理
+*** 字典管理
+**** 字典查询 /dict/list
+**** 字典新增 /dict/add
+**** 字典修改 /dict/edit
+**** 字典删除 /dict/remove
+**** 字典详情 /dict/detail
+
+*** 参数管理
+**** 参数查询 /param/list
+**** 参数新增 /param/add
+**** 参数修改 /param/edit
+**** 参数删除 /param/remove
+**** 参数详情 /param/detail
+
+@endwbs

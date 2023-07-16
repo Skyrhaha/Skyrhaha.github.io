@@ -1,0 +1,136 @@
+@startuml cas
+
+'skinparam backgroundColor #eeebdc
+'skinparam sequenceParticipant underline
+'skinparam sequenceArrowThickness 2
+'skinparam roundcorner 20
+'skinparam maxmessagesize 300
+'skinparam handwritten true
+
+title CAS时序图
+
+'移除脚注
+hide footbox
+footer %page% of %lastpage%
+
+actor User
+participant Browser
+participant "CAS server" as cas
+participant "Protected Web01" as web01
+participant "Protected Web02" as web02
+
+'== 首次访问 ==
+group 首次访问
+User -> Browser: Goto "web01"
+activate Browser
+
+'首次访问应用
+Browser -> web01: GET https://web01.example.com/
+activate web01
+note right of web01: 用户未登录\n请先去CAS进行登录
+return 302 Location https://cas.example.com/login?service=https://web01.example.com/
+deactivate web01
+
+'发起cas登录,返回登录页面
+Browser -> cas : GET https://cas.example.com/login?service=https://web01.example.com/
+activate Browser
+activate cas
+note right of cas : 用户未登录\n返回登录页面
+return CAS Login Form
+deactivate cas
+'|||
+'展示CAS Login Form
+Browser -> User : Display CAS Login Form
+activate User
+'|||
+return Submit CAS Login Form
+'输入用户名密码发起登录
+Browser->cas: POST https://cas.example.com/login?service=https://web01.example.com/\nform:username=xxx,password=xxx
+activate cas
+note right of cas: 登录成功\n生成casToken并缓存\n生成一次性ticket=t1并缓存
+return 302 Location https://web01.example.com/?ticket=t1\ncasToken=S1,ticket=t1
+deactivate Browser
+Browser->web01: GET https://web01.example.com/?ticket=t1
+activate web01
+note right of web01: 发起ticket=t1验证
+web01->cas: GET https//cas.example.com/validation?ticket=t1
+activate cas
+note left of cas: CAS对ticket=t1进行验证
+return 200,对应用户信息
+note right of web01: 生成web01Token=C1\n业务处理
+return 200,web01Token=C1,对应业务响应信息
+Browser-->User: Display "web01"
+deactivate Browser
+end 'endgroup
+
+'newpage CAS时序图-第二次访问相同的应用
+'skinparam backgroundColor #eeebdc
+
+'== 第二次访问相同的应用 ==
+footer %page% of %lastpage%
+group 第二次访问相同的应用
+User->Browser: Goto "web01"
+activate Browser
+Browser->web01: GET https://web01.example.com/resource\nHeader: web01Token=C1
+activate web01
+note right of web01: 业务处理
+return 200
+return Display "web01"
+end
+
+'newpage CAS时序图-首次访问其它应用
+'skinparam backgroundColor #eeebdc
+
+'== 首次访问其它应用 ==
+footer %page% of %lastpage%
+group 首次访问其它应用
+User -> Browser: Goto "web02"
+activate Browser
+Browser -> web02: GET https://web02.example.com/
+activate web02
+note right of web02: 用户未登录\n请先去CAS进行登录
+return 302 Location https://cas.example.com/login?service=https://web02.example.com/
+deactivate web02
+
+'发起cas登录,返回登录页面
+Browser -> cas : GET https://cas.example.com/login?service=https://web02.example.com/\nHeader:casToken=S1
+activate Browser
+activate cas
+note right of cas : 用户已登录\n生成一次性ticket=t2并缓存
+return 302 Location https://web02.example.com/?ticket=t2\n
+deactivate Browser
+Browser->web02: GET https://web02.example.com/?ticket=t2
+activate web02
+note right of web02: 发起ticket=t2验证
+web02->cas: GET https//cas.example.com/validation?ticket=t2
+activate cas
+note left of cas: CAS对ticket=t2进行验证
+return 200,对应用户信息
+note right of web02: 生成web02Token=C2\n业务处理
+return 200,web02Token=C2,对应业务响应信息
+Browser-->User: Display "web02"
+deactivate Browser
+end
+
+'== 单点退出 ==
+'newpage CAS时序图-单点退出
+'skinparam backgroundColor #eeebdc
+footer %page% of %lastpage%
+
+group 单点退出
+User -> Browser: Goto "web01"
+activate Browser
+Browser -> web01: GET https://web01.example.com/exit
+activate web01
+web01->cas: GET https://cas.example.com/exit
+activate cas
+note left of cas: cas安全退出(当CAS与biz共享token后此步可选)
+return 200
+note right of web01: web01安全退出
+web01-->Browser: 200
+deactivate web01
+Browser-->User: Display "web01"
+deactivate Browser
+end
+
+@enduml

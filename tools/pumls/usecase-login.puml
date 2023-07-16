@@ -1,0 +1,17 @@
+@startuml login
+
+' title 登录管理
+skinparam defaultFontName '宋体'
+
+left to right direction
+
+frame usecase-登录管理 {
+    actor user as u1
+
+    u1 --> (登录)
+    u1 --> (登出)
+    u1 --> (登录保活/token刷新)
+    u1 --> (菜单/权限获取)
+}
+
+@enduml
