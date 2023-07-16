@@ -17,4 +17,4 @@
 <!-- ![color](#f0f0f0) -->
 
 [GitHub](https://github.com/Skyrhaha/Skyrhaha.github.io.git)
-[Get Started](/bigdata/readme.md)
+[Get Started](/bigdata/README.md)
