@@ -95,7 +95,7 @@ aside.nav.nothing {
     line-height: 1.6em;
 }
 
-@media screen  and (max-width: 1300px) {
+@media screen  and (max-device-width: 1300px) {
     
     .page_toc {
         display: none;
