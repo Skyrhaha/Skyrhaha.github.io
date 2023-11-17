@@ -1147,6 +1147,33 @@ func()
 
 <pre style="overflow-x:auto; background: #eaeef2; padding-top: 5px">
 &lt;class 'int'>&#xA;20&#xA;23-04-15 15:41:50 |   DEBUG|1157483613.py:17|&lt;module>| Debugging information&#xA;23-04-15 15:41:50 |    INFO|1157483613.py:18|&lt;module>| Informational message&#xA;23-04-15 15:41:50 | WARNING|1157483613.py:19|&lt;module>| warning: config file server.conf not found!&#xA;23-04-15 15:41:50 |   ERROR|1157483613.py:20|&lt;module>| error&#xA;23-04-15 15:41:50 |CRITICAL|1157483613.py:21|&lt;module>| critical error -- shutting down&#xA;23-04-15 15:41:50 |    INFO|1157483613.py:24|func| funcName test&#xA;</pre>
+
+- logging设置时区
+```python
+importlib.reload(logging)
+# logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(funcName)s|%(message)s',datefmt='%m/%d/%Y %I:%M:%S %p',level=logging.DEBUG)
+
+
+logging.Formatter.converter = lambda sec,what: (datetime.datetime.now()+datetime.timedelta(hours=8)).timetuple() 
+
+# create logger
+logger = logging.getLogger('LIB_FILE_IMPORT')
+logger.setLevel(logging.INFO)
+
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+# ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s|%(levelname)s|%(name)s|%(funcName)s|%(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
+```
+
 ## smtplib
 https://www.runoob.com/python3/python3-smtp.html
 
