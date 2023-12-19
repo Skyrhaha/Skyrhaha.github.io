@@ -10,6 +10,13 @@
       $addToSet: '$type'
     }
   }
+
+  {
+    _id: null,
+    result-这里是结果字段名: {
+      $addToSet: "$activity.typeProperties.source.type"
+    }
+  }
   ```
 
 
