@@ -18,6 +18,15 @@
     }
   }
   ```
+- 按字段分组统计
+  ```
+  {
+    _id: "$properties.type",
+    countOfType: {
+      $count: {},
+    },
+  }
+  ```
 
 
 # ArangoDB
