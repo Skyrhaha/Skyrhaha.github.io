@@ -31,4 +31,5 @@
 
 # ArangoDB
 https://docs.python-arango.com/en/main/index.html
+http://www.taodudu.cc/news/show-4225824.html?action=onClick
 https://github.com/ArangoDB-Community/pyArango
